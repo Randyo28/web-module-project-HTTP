@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 
 import axios from 'axios';
 
-const EditMovieForm = (props) => {
-	const { push } = useHistory();
-	
+function AddMovieForm(props) {
 
 	const { id } = useParams()
+
+    const { push } = useHistory()
 
 	const [movie, setMovie] = useState({
 		title:"",
@@ -25,37 +25,25 @@ const EditMovieForm = (props) => {
         });
     }
 
-	useEffect(() => {
-		axios
-		.get(`http://Localhost:5000/api/movies/${id}`)
-		.then(res => {
-			console.log(res.data)
-			setMovie(res.data)
-		})
-		.catch(err => {
-			console.log(err.response)
-		})
-	},[id])
-
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log('hey')
 
-		axios
-		.put(`http://Localhost:5000/api/movies/${id}`, movie)
-		.then(res => {
-			console.log(res.data)
-			props.setMovies(res.data);
-			push(`/movies/${id}`);
-		})
-		.catch(err => {
-			console.log(err.response)
-		})
+        axios.post(`http://Localhost:5000/api/movies`, movie)
+        .then(res => {
+            props.setMovies(res.data)
+            console.log(res)
+            push('/movies')
+        })
+        .catch(err => {
+            console.log(err.response)
+        })
 	}
-	
-	const { title, director, genre, metascore, description } = movie;
+
+    const { title, director, genre, metascore, description } = movie;
 
     return (
-	<div className="col">
+        <div className="col">
 		<div className="modal-content">
 			<form onSubmit={handleSubmit}>
 				<div className="modal-header">						
@@ -85,7 +73,7 @@ const EditMovieForm = (props) => {
 									
 				</div>
 				<div className="modal-footer">			    
-					<input type="submit" className="btn btn-info" value="Save"/>
+					<input type="submit" className="btn btn-info" value="Add Movie"/>
 					<Link to={`/movies/`}><input type="button" className="btn btn-default" value="Cancel"/></Link>
 				</div>
 			</form>
@@ -93,4 +81,4 @@ const EditMovieForm = (props) => {
 	</div>);
 }
 
-export default EditMovieForm;
+export default AddMovieForm;
