@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import {  useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 import axios from 'axios';
 
 function AddMovieForm(props) {
 
-	const { id } = useParams()
 
     const { push } = useHistory()
 
